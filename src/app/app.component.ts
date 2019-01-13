@@ -82,7 +82,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private runRealTerminal(): void {
     this.term.clear();
-    this.term.writeln('Welcome to xterm.js');
     this.term.attach(this.socket);
     this.term._initialized = true;
   }

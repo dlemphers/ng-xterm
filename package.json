@@ -1,13 +1,16 @@
 {
   "name": "ng-xterm",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
+    "prebuild": "rm -rf dist && yarn lint",
+    "build": "ng build --prod",
+    "postbuild": "gulp",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "server:dev": "node server",
+    "server:prod": "NODE_ENV=production node dist/server",
+    "build:both": "yarn build && yarn server:prod"
   },
   "private": true,
   "dependencies": {
@@ -20,6 +23,12 @@
     "@angular/platform-browser-dynamic": "~7.2.0",
     "@angular/router": "~7.2.0",
     "core-js": "^2.5.4",
+    "express": "^4.16.4",
+    "express-ws": "^4.0.0",
+    "gulp": "^4.0.0",
+    "gulp-babel": "^8.0.0",
+    "gulp-rename": "^1.4.0",
+    "node-pty": "^0.8.0",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",
     "xterm": "^3.10.1",
