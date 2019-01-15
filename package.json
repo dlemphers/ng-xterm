@@ -4,13 +4,13 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "prebuild": "rm -rf dist && yarn lint",
+    "prebuild": "rm -rf dist && npm run lint",
     "build": "ng build --prod",
     "postbuild": "gulp",
     "lint": "ng lint",
     "server:dev": "node server",
     "server:prod": "NODE_ENV=production node dist/server",
-    "build:both": "yarn build && yarn server:prod"
+    "build:both": "npm run build && npm run server:prod"
   },
   "private": true,
   "dependencies": {

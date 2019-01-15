@@ -15,7 +15,7 @@ const isDev = process.env.NODE_ENV !== 'production';
 if (isDev) {
     app.use(function(req, res, next) {
         res.header('Access-Control-Allow-Origin', '*');
-        res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+        res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
         next();
     });
 } else {
@@ -28,15 +28,15 @@ if (isDev) {
 }
 
 app.post('/terminals', function(req, res) {
-    const cols = parseInt(req.query.cols),
-        rows = parseInt(req.query.rows),
-        term = pty.spawn(process.platform === 'win32' ? 'cmd.exe' : 'bash', [], {
-            name: 'xterm-color',
-            cols: cols || 80,
-            rows: rows || 24,
-            cwd: process.env.PWD,
-            env: process.env
-        });
+    const cols = parseInt(req.query.cols);
+    const rows = parseInt(req.query.rows);
+    const term = pty.spawn(process.platform === 'win32' ? 'cmd.exe' : 'bash', [], {
+        name: 'xterm-color',
+        cols: cols || 80,
+        rows: rows || 24,
+        cwd: process.env.PWD,
+        env: process.env
+    });
 
     console.log('Created terminal with PID: ' + term.pid);
     terminals[term.pid] = term;
@@ -101,7 +101,7 @@ app.ws('/terminals/:pid', function(ws, req) {
 });
 
 const port = process.env.PORT || 3000;
-const host = os.platform() === 'win32' ? '127.0.0.1' : 'localhost';
+const host = os.platform() === 'win32' ? '127.0.0.1' : '0.0.0.0';
 
 console.log('App listening to http://' + host + ':' + port);
 app.listen(port, host);
