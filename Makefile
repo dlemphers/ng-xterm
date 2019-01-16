@@ -12,6 +12,9 @@ help: ## This help.
 build: ## Build the container
 	docker-compose build
 
+build-nc: ## Build the container and skip cache
+	docker-compose build --no-cache
+
 up: ## Build and run the container
 	docker-compose up --build
 

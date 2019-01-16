@@ -10,7 +10,13 @@ export class AppService {
   ) {}
 
   getProcessId(cols: number, rows: number): Observable<any> {
-    return this.http.post(`http://${this.baseUrl}/terminals?cols=${cols}&rows=${rows}`, {});
+    const url = `http://${this.baseUrl}/terminals`;
+    return this.http.post(url, {}, {
+      params: {
+        cols: cols.toString(),
+        rows: rows.toString()
+      }
+    });
   }
 
   get socketUrl(): string {

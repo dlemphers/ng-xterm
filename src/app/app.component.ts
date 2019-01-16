@@ -1,6 +1,13 @@
-import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
+import { fromEvent, Subject } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 
 import * as Terminal from 'xterm/dist/xterm';
 import * as attach from 'xterm/lib/addons/attach/attach';
@@ -31,6 +38,14 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.createTerminal();
+    fromEvent(window, 'resize')
+      .pipe(
+        debounceTime(100),
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe(() => {
+        this.recreateTerminal();
+      });
   }
 
   ngOnDestroy(): void {
@@ -43,6 +58,14 @@ export class AppComponent implements OnInit, OnDestroy {
     this.initTerminal();
     this.socketURL = this.service.socketUrl;
     this.initWebSocket();
+  }
+
+  private recreateTerminal(): void {
+    while (this.container.nativeElement.children.length) {
+      this.container.nativeElement.removeChild(this.container.nativeElement.children[0]);
+    }
+
+    this.createTerminal();
   }
 
   private applyAddons(): void {

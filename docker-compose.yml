@@ -3,7 +3,7 @@ version: '3'
 services:
   web:
     build: .
-    container_name: ng-xterm
+    image: ng-xterm
     ports:
-      - '3000:3000'
+      - "3000:3000"
     command: npm run build:both
